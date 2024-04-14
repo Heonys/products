@@ -1,9 +1,10 @@
 import styled from "@emotion/styled";
-import ProductCard from "../components/ProductCard";
-import useAllProduct from "../hooks/useAllProduct";
+import useProduct from "../hooks/useProduct";
 import Button from "../components/Button";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import useHistory from "../hooks/useHistory";
+import ProductCardGrid from "../components/ProductCardGrid";
 
 const Container = styled.section`
   max-width: 80%;
@@ -22,18 +23,14 @@ const InputContainer = styled.div`
   justify-content: center;
 `;
 
-const Grid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-`;
 const ProductPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get("search") || "";
   const page = searchParams.get("page") || "1";
   const [text, setText] = useState(search);
+  useHistory();
 
-  const { products, fetchNextPage, searched, searchProduct, emptySearch } = useAllProduct(
+  const { products, fetchNextPage, searched, searchProduct, emptySearch } = useProduct(
     page,
     search
   );
@@ -55,7 +52,7 @@ const ProductPage = () => {
 
   const handleMoreClick = () => {
     setSearchParams({ page: `${parseInt(page) + 1}` });
-    fetchNextPage();
+    fetchNextPage(`${parseInt(page) + 1}`);
   };
 
   return (
@@ -71,31 +68,9 @@ const ProductPage = () => {
       </InputContainer>
 
       {searched.length !== 0 ? (
-        <Grid>
-          {searched.map(({ id, thumbnail, brand, title, price }) => (
-            <ProductCard
-              key={id}
-              id={id}
-              thumbnail={thumbnail}
-              brand={brand}
-              title={title}
-              price={price}
-            />
-          ))}
-        </Grid>
+        <ProductCardGrid products={searched} />
       ) : (
-        <Grid>
-          {products.map(({ id, thumbnail, brand, title, price }) => (
-            <ProductCard
-              key={id}
-              id={id}
-              thumbnail={thumbnail}
-              brand={brand}
-              title={title}
-              price={price}
-            />
-          ))}
-        </Grid>
+        <ProductCardGrid products={products} />
       )}
 
       {products.length >= 10 && !search && <Button onClick={handleMoreClick}>더보기</Button>}

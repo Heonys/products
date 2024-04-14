@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import useProduct from "../hooks/useProduct";
+import useProductById from "../hooks/useProductById";
 import Button from "../components/Button";
 import ProductContent from "../components/ProductContent";
 import styled from "@emotion/styled";
@@ -12,7 +12,7 @@ const Container = styled.section`
 
 const ProductDetailPage = () => {
   const { id } = useParams();
-  const { product } = useProduct(id!);
+  const { product } = useProductById(id!);
   const navigate = useNavigate();
 
   if (!product) return <div>로딩중 ... </div>;

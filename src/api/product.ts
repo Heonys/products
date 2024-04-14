@@ -1,7 +1,7 @@
 import { AllProducts, Product } from "../types";
 
-export const getAllProductsByPage = async (page: number = 1): Promise<AllProducts> => {
-  const response = await fetch(`https://dummyjson.com/products?limit=10&skip=${(page - 1) * 10}`);
+export const getAllProducts = async (page: number): Promise<AllProducts> => {
+  const response = await fetch(`https://dummyjson.com/products?limit=${page * 10}&skip=0`);
   const data = await response.json();
   return data;
 };
