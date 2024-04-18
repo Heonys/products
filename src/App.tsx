@@ -1,5 +1,4 @@
 import { Outlet } from 'react-router-dom';
-import { Navbar } from './components';
 import GlobalStyle from './styles/GlobalStyle';
 import styled from "@emotion/styled";
 
@@ -7,7 +6,6 @@ function App() {
   return (
     <Layout>
       <GlobalStyle />
-      <Navbar />
       <Outlet />
     </Layout>
   );
