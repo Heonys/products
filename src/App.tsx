@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import GlobalStyle from './styles/GlobalStyle';
-import styled from "@emotion/styled";
+import styled from '@emotion/styled';
 
 function App() {
   return (
@@ -14,13 +14,12 @@ function App() {
 export default App;
 
 const Layout = styled.main`
-  width: 600px;
+  width: 1000px;
   min-height: 100vh;
   margin: 0 auto;
-  background-color: white;
   padding: 1rem;
 
-  @media (max-width: 600px) {
+  @media (max-width: 1000px) {
     width: 100%;
   }
 `;
