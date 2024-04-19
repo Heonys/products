@@ -1,14 +1,25 @@
 import { useState } from 'react';
-import useProducts from '@/hooks/useProducts';
+import { useSetRecoilState } from 'recoil';
+import { useProducts, useSearch } from '@/hooks';
 import { ProductCard } from '@/components';
+import { productsPageAtom } from '@/atom/productsAtom';
 
 import * as S from './style';
 
 const ProductsList = () => {
   const [keyword, setKeyword] = useState('');
-  const { data } = useProducts(10, 10);
+  const setPage = useSetRecoilState(productsPageAtom);
+  const { products, total } = useProducts();
+  const { searched, searchKeyword, clearSearch } = useSearch();
 
-  const handleClickMore = () => {};
+  const handleClick = () => {
+    if (keyword.length === 0) return clearSearch();
+    searchKeyword(keyword);
+  };
+
+  const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') handleClick();
+  };
 
   return (
     <>
@@ -18,11 +29,12 @@ const ProductsList = () => {
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
           placeholder="상품을 입력해주세요"
+          onKeyDown={handleEnter}
         />
-        <S.Button>검색</S.Button>
+        <S.Button onClick={handleClick}>검색</S.Button>
       </S.InputContainer>
       <S.ProductList>
-        {data?.products.map(({ title, id, brand, price, thumbnail }) => {
+        {(searched || products).map(({ title, id, brand, price, thumbnail }) => {
           return (
             <ProductCard
               key={id}
@@ -35,7 +47,9 @@ const ProductsList = () => {
           );
         })}
       </S.ProductList>
-      <S.ViewMore onClick={handleClickMore}>View More</S.ViewMore>
+      {products.length < total! && !searched && (
+        <S.ViewMore onClick={() => setPage((prev) => prev + 1)}>View More</S.ViewMore>
+      )}
     </>
   );
 };

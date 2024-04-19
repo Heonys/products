@@ -65,3 +65,31 @@ export const Flex = styled.div`
   gap: 10px;
   padding-bottom: 3px;
 `;
+
+export const PrevButton = styled.div`
+  position: absolute;
+  background-color: white;
+  border-radius: 50%;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 50%;
+  background-color: #f3f4f6;
+  box-shadow: rgba(59, 62, 65, 0.2) 0px 8px 24px;
+  cursor: pointer;
+  left: 1%;
+  top: 40%;
+`;
+
+export const NextButton = styled.div`
+  position: absolute;
+  background-color: white;
+  border-radius: 50%;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 50%;
+  background-color: #f3f4f6;
+  box-shadow: rgba(59, 62, 65, 0.2) 0px 8px 24px;
+  cursor: pointer;
+  right: 1%;
+  top: 40%;
+`;

@@ -3,11 +3,12 @@ import { useEffect, useState } from 'react';
 type Props<T> = {
   queryKey: string | any[];
   queryFn: (...args: any[]) => Promise<T>;
+  onSucces?: (args: T) => void;
 };
 
 const queryCache = new Map();
 
-export function useQuery<T>({ queryKey, queryFn }: Props<T>) {
+export function useQuery<T>({ queryKey, queryFn, onSucces }: Props<T>) {
   const [data, setData] = useState<T | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
@@ -24,6 +25,7 @@ export function useQuery<T>({ queryKey, queryFn }: Props<T>) {
         const response = await queryFn();
         setData(response);
         queryCache.set(cacheKey, response);
+        onSucces?.(response);
       } catch (error) {
         setError(error as Error);
       } finally {
